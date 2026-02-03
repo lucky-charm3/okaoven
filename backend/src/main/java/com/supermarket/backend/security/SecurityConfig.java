@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -46,18 +48,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // 1. Ruhusu CORS (Maelekezo yapo chini kwenye Bean ya corsConfigurationSource)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // 2. Disable CSRF kwa sababu tunatumia API (stateless)
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(request -> {
-                    var auth = new CorsConfiguration();
-                    auth.setAllowedOrigins(List.of(
-                            "http://localhost:5173",
-                            "https://oka-oven.netlify.app" // Add your frontend link here later
-                    ));
-                    auth.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                    auth.setAllowedHeaders(List.of("*"));
-                    return auth;
-                }))
                 .authorizeHttpRequests(auth -> auth
+                        // 3. Ruhusu kila kitu kwenye /api/auth/** na ruhusu OPTIONS (Preflight)
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/sales/**").permitAll()
@@ -65,5 +62,29 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // HAPA WEKA URL YAKO YA NETLIFY BILA "/" MWISHONI
+        configuration.setAllowedOrigins(List.of(
+                "https://oka-oven.netlify.app",
+                "http://localhost:5173"
+        ));
+
+        // Ruhusu amri zote muhimu
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+
+        // Ruhusu header zote (Content-Type, Authorization, nk)
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // Ruhusu cookies/credentials kama zikihitajika
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
