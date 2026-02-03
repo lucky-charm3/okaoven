@@ -51,7 +51,7 @@ public class SecurityConfig {
                     var auth = new CorsConfiguration();
                     auth.setAllowedOrigins(List.of(
                             "http://localhost:5173",
-                            "https://your-frontend-link.vercel.app" // Add your frontend link here later
+                            "https://oka-oven.netlify.app" // Add your frontend link here later
                     ));
                     auth.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     auth.setAllowedHeaders(List.of("*"));
