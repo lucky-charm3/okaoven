@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://oka-oven.netlify.app")
 public class ProductController {
 
     private final ProductRepository productRepository;

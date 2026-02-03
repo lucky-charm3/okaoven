@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/sales")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://oka-oven.netlify.app")
 public class SaleController {
 
     private final SaleService saleService;
