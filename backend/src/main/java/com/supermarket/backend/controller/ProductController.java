@@ -27,8 +27,11 @@ public class ProductController {
 
     @GetMapping("/barcode/{code}")
     public Product getByBarcode(@PathVariable String code) {
-        return productRepository.findByBarcode(code);
+        return productRepository
+                .findByBarcode(code)
+                .orElseThrow(() -> new RuntimeException("Product not found with barcode: " + code));
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

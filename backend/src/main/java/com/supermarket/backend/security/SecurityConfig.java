@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var auth = new CorsConfiguration();
                     auth.setAllowedOrigins(List.of("http://localhost:5173"));
-                    auth.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                    auth.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     auth.setAllowedHeaders(List.of("*"));
                     return auth;
                 }))
@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/sales/**").permitAll()
+                        .requestMatchers("/api/dashboard/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

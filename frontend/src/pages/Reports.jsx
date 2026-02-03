@@ -24,8 +24,8 @@ const Reports = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <ReportCard label="Net Revenue" val={`$${data.totalRevenue.toFixed(2)}`} icon={<TrendingUp />} />
-        <ReportCard label="Net Profit" val={`$${data.totalProfit.toFixed(2)}`} icon={<DollarSign />} color="text-lemon" />
+        <ReportCard label="Net Revenue" val={`Tshs${data.totalRevenue.toFixed(2)}`} icon={<TrendingUp />} />
+        <ReportCard label="Net Profit" val={`Tshs${data.totalProfit.toFixed(2)}`} icon={<DollarSign />} color="text-lemon" />
         <ReportCard label="Transactions" val={data.sales.length} icon={<History />} />
       </div>
 
@@ -50,8 +50,8 @@ const Reports = () => {
                     {new Date(sale.timestamp).toLocaleDateString()} <br/>
                     <span className="text-[10px] text-gray-500">{new Date(sale.timestamp).toLocaleTimeString()}</span>
                   </td>
-                  <td className="py-6 font-black text-off-white">${sale.totalAmount.toFixed(2)}</td>
-                  <td className="py-6 font-black text-lemon">+ ${sale.totalProfit.toFixed(2)}</td>
+                  <td className="py-6 font-black text-off-white">Tshs{sale.totalAmount.toFixed(2)}</td>
+                  <td className="py-6 font-black text-lemon">+ Tshs{sale.totalProfit.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

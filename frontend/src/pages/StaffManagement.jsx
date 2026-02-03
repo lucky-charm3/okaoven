@@ -45,7 +45,14 @@ const StaffManagement = () => {
             <option value="INVENTOROR">INVENTOROR</option>
             <option value="MANAGER">MANAGER</option>
           </select>
-          <button className="md:col-span-2 bg-lemon text-navy-dark py-4 rounded-xl font-black uppercase shadow-xl hover:scale-95 transition-all">Authorize Staff</button>
+         <button 
+  disabled={registerMutation.isPending}
+  className="md:col-span-2 bg-lemon text-navy-dark py-4 rounded-xl font-black uppercase flex items-center justify-center gap-2"
+>
+  {registerMutation.isPending ? (
+    <><Loader2 className="animate-spin" size={18}/> SAVING STAFF...</>
+  ) : "AUTHORIZE OPERATOR"}
+</button>
         </form>
       </div>
     );
@@ -74,7 +81,9 @@ const StaffManagement = () => {
             </div>
             <div className="space-y-3 border-t border-white/5 pt-6">
                 <div className="flex items-center gap-3 text-gray-500 text-xs font-bold uppercase italic"><Mail size={14} className="text-lemon"/> {member.email}</div>
-                <div className="flex items-center gap-3 text-gray-500 text-xs font-bold uppercase italic"><Phone size={14} className="text-lemon"/> {member.phone}</div>
+                <div className="flex items-center gap-3 text-gray-400 text-xs font-bold">
+  <Phone size={14} className="text-lemon"/> {member.phone} 
+</div>
                 <div className="flex items-center gap-3 text-gray-400 text-[10px] font-mono mt-4 opacity-50 uppercase">ID: {member.username}</div>
             </div>
           </div>

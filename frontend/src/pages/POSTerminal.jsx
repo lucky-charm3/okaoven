@@ -48,14 +48,21 @@ const POSTerminal = () => {
     }
   };
 
-  const checkoutMutation = useMutation({
-    mutationFn: (saleData) => axios.post('/api/sales/process', saleData),
+ const checkoutMutation = useMutation({
+    mutationFn: (saleData) => axios.post('/sales/process', saleData), 
     onSuccess: () => {
-      queryClient.invalidateQueries(['products', 'dashboardStats']);
+      queryClient.invalidateQueries(['products']);
+      queryClient.invalidateQueries(['dashboardStats']);
+      queryClient.invalidateQueries(['salesReport']); 
+      
       setCart([]);
       setShowCheckoutModal(false);
-      toast.success("TRANSACTION COMPLETE - TSHS " + total.toLocaleString(), { icon: '💰', duration: 4000 });
-    }
+      toast.success("SALE COMPLETED SUCCESSFULLY", {
+        duration: 5000,
+        icon: '✅'
+      });
+    },
+    onError: () => toast.error("TRANSACTION FAILED")
   });
 
   const total = cart.reduce((sum, i) => sum + (i.sellingPrice * i.qty), 0);
