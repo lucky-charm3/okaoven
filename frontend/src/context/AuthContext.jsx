@@ -13,26 +13,23 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
-    window.location.href = '/login';
   };
 
   useEffect(() => {
-    const verifySession = async () => {
+    const verify = async () => {
       if (!user) {
         setIsVerifying(false);
         return;
       }
       try {
-        // Ping backend to see if this user still exists/session is valid
         await axios.get(`/auth/validate?username=${user.username}`);
       } catch (err) {
-        // Backend said NO or Backend is DOWN
         logout();
       } finally {
         setIsVerifying(false);
       }
     };
-    verifySession();
+    verify();
   }, []);
 
   const login = (userData) => {
@@ -42,7 +39,11 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isVerifying }}>
-      {!isVerifying && children}
+      {(!isVerifying || user) ? children : (
+        <div className="h-screen w-screen bg-navy-dark flex items-center justify-center">
+            <div className="animate-pulse text-lemon font-black uppercase tracking-[0.5em]">Authenticating...</div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };

@@ -49,7 +49,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     var auth = new CorsConfiguration();
-                    auth.setAllowedOrigins(List.of("http://localhost:5173"));
+                    auth.setAllowedOrigins(List.of(
+                            "http://localhost:5173",
+                            "https://your-frontend-link.vercel.app" // Add your frontend link here later
+                    ));
                     auth.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     auth.setAllowedHeaders(List.of("*"));
                     return auth;
