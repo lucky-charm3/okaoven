@@ -10,7 +10,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "https://oka-oven.netlify.app")
 public class AuthController {
 
     private final UserRepository userRepository;

@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/dashboard")
-@CrossOrigin(origins = "https://oka-oven.netlify.app")
 public class DashboardController {
 
     private final ProductRepository productRepository;
